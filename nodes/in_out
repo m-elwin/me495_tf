@@ -83,7 +83,7 @@ if __name__ == "__main__":
         base_right.transform.translation.y = 0
         base_right.transform.translation.z = 0
         
-        q2 = transformations.quaternion_about_axis(radians, [0, 0, 1])
+        q2 = transformations.quaternion_about_axis(radians, [0, 0, -1])
         base_right.transform.rotation = geometry_msgs.msg.Quaternion(*q2)
 
         # don't forget to put a timestamp
