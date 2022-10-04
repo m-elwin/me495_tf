@@ -21,7 +21,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'in_out = me495_tf.in_out:in_out_entry'
+            'in_out = me495_tf.in_out:in_out_entry',
+            'tracker = me495_tf.tracker:tracker_entry'
         ],
     },
 )

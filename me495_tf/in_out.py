@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """
 Create one static frame and two moving frames.
 
