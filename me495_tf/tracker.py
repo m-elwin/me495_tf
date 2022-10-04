@@ -7,6 +7,7 @@ import tf2_ros
 from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener
 
+
 class Tracker(Node):
     """
     Listens to TF frames and logs information based on how they change
@@ -25,7 +26,8 @@ class Tracker(Node):
         # recently enough, then there will be an error and we continue.
         # For demonstration purposes we catch each exception individually
         try:
-            # get the latest transform between left and right (rclpy.time.Time() means get the latest information)
+            # get the latest transform between left and right
+            # (rclpy.time.Time() means get the latest information)
             trans = self.buffer.lookup_transform("left", "right", rclpy.time.Time())
             self.get_logger().info(f"Transform is: {trans}")
         except tf2_ros.LookupException as e:
@@ -38,11 +40,9 @@ class Tracker(Node):
             # the times are two far apart to extrapolate
             self.get_logger().info(f"Extrapolation exception: {e}")
 
+
 def tracker_entry(args=None):
     rclpy.init(args=args)
     node = Tracker()
     rclpy.spin(node)
     rclpy.shutdown()
-
-
-

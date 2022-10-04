@@ -20,11 +20,14 @@ from geometry_msgs.msg import TransformStamped
 from math import pi
 from .quaternion import angle_axis_to_quaternion
 
+
 class InOut(Node):
+    """ Moves some frames around
+
+    Static Broadcasts: world -> base
+    Broadcasts base -> left and base -> right
     """
-       Static Broadcasts: world -> base
-       Broadcasts base -> left and base -> right
-    """
+
     def __init__(self):
         super().__init__('in_out')
         # Static broadcasters publish on /tf_static. We will only need to publish this once
@@ -37,12 +40,13 @@ class InOut(Node):
         world_base_tf.header.frame_id = "world"
         world_base_tf.child_frame_id = "base"
 
-        # The base frame will be raised in the z direction by 1 meter and be aligned with world
-        # We are relying on the default values of the transform message (which defaults to no rotation)
+        # The base frame will be raised in the z direction by 1 meter
+        # and be aligned with world We are relying on the default values
+        # of the transform message (which defaults to no rotation)
         world_base_tf.transform.translation.z = 1.0
         self.static_broadcaster.sendTransform(world_base_tf)
 
-        self.dx = 10 # used to control frame movement
+        self.dx = 10  # used to control frame movement
         # create the broadcaster
         self.broadcaster = TransformBroadcaster(self)
         # Create a timer to do the rest of the transforms
@@ -83,12 +87,3 @@ def in_out_entry(args=None):
     node = InOut()
     rclpy.spin(node)
     rclpy.shutdown()
-
-
-
-
-    dx = 10
-    while not rospy.is_shutdown():
-
-        rate.sleep()
-
