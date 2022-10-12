@@ -22,10 +22,13 @@ from .quaternion import angle_axis_to_quaternion
 
 
 class InOut(Node):
-    """ Moves some frames around
+    """
+    Moves some frames around.
 
-    Static Broadcasts: world -> base
-    Broadcasts base -> left and base -> right
+    Static Broadcasts:
+       world -> base
+    Broadcasts:
+       base -> left and base -> right
     """
 
     def __init__(self):

@@ -1,6 +1,4 @@
-"""
-    A basic tf2 listener that computes the distance and angle between the left and right frames
-"""
+"""A basic tf2 listener that computes the distance and angle between the left and right frames."""
 import rclpy
 from rclpy.node import Node
 import tf2_ros
@@ -9,9 +7,8 @@ from tf2_ros.transform_listener import TransformListener
 
 
 class Tracker(Node):
-    """
-    Listens to TF frames and logs information based on how they change
-    """
+    """Listens to TF frames and logs information based on how they change."""
+
     def __init__(self):
         super().__init__("tracker")
 
