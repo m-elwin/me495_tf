@@ -48,6 +48,7 @@ class InOut(Node):
         # of the transform message (which defaults to no rotation)
         world_base_tf.transform.translation.z = 1.0
         self.static_broadcaster.sendTransform(world_base_tf)
+        self.get_logger().info("Static Transform: world->base")
 
         self.dx = 10  # used to control frame movement
         # create the broadcaster
