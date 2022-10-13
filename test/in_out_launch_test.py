@@ -47,6 +47,9 @@ class TestME495Tf(unittest.TestCase):
         proc_output.assertWaitFor("Static Transform: world->base", process=in_out, timeout=3.0)
         rclpy.spin_once(self.node)
         xform = buffer.lookup_transform("world", "base", rclpy.time.Time())
+        # Even though these are floating point numbers, test for exact equality
+        # Because this transform is hard-coded and not the result of any math
+        # So the exact values should be copied
         assert xform.transform.translation.x == 0.0
         assert xform.transform.translation.y == 0.0
         assert xform.transform.translation.z == 1.0
