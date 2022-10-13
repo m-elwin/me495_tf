@@ -49,6 +49,6 @@ class TestME495Tf(unittest.TestCase):
         self.node.destroy_node()
 
     def test_static_transform(self, launch_service, in_out, proc_output):
-        proc_output.assertWaitFor("Static Transform: world->base", process=in_out)
+        proc_output.assertWaitFor("Static Transform: world->base", process=in_out, timeout=3.0)
         rclpy.spin_once(self.node)
         trans = self.node.buffer.lookup_transform("world", "base", rclpy.time.Time())
