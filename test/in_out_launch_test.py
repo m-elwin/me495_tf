@@ -1,4 +1,5 @@
 import unittest
+
 from launch import LaunchDescription
 from launch_ros.actions import Node
 import launch_testing
@@ -11,8 +12,8 @@ from tf2_ros.transform_listener import TransformListener
 
 @pytest.mark.rostest
 def generate_test_description():
-    in_out_action = Node(package="me495_tf",
-                         executable="in_out",
+    in_out_action = Node(package='me495_tf',
+                         executable='in_out',
                          )
     return (
         LaunchDescription([
@@ -36,7 +37,7 @@ class TestME495Tf(unittest.TestCase):
         rclpy.shutdown()
 
     def setUp(self):
-        self.node = rclpy.create_node("test_node")
+        self.node = rclpy.create_node('test_node')
 
     def tearDown(self):
         self.node.destroy_node()
@@ -44,9 +45,9 @@ class TestME495Tf(unittest.TestCase):
     def test_static_transform(self, launch_service, in_out, proc_output):
         buffer = Buffer()
         _ = TransformListener(buffer, self.node)
-        proc_output.assertWaitFor("Static Transform: world->base", process=in_out, timeout=3.0)
+        proc_output.assertWaitFor('Static Transform: world->base', process=in_out, timeout=3.0)
         rclpy.spin_once(self.node)
-        xform = buffer.lookup_transform("world", "base", rclpy.time.Time())
+        xform = buffer.lookup_transform('world', 'base', rclpy.time.Time())
         # Even though these are floating point numbers, test for exact equality
         # Because this transform is hard-coded and not the result of any math
         # So the exact values should be copied

@@ -1,7 +1,8 @@
 """Convert from angle-axis to quaternion."""
 
+from math import cos, sin, sqrt
+
 from geometry_msgs.msg import Quaternion
-from math import sqrt, sin, cos
 
 
 def angle_axis_to_quaternion(theta, axis):

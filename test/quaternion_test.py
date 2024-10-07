@@ -1,7 +1,7 @@
 """Test quaternion math."""
 
-from me495_tf.quaternion import angle_axis_to_quaternion
 from geometry_msgs.msg import Quaternion
+from me495_tf.quaternion import angle_axis_to_quaternion
 
 
 def test_identity():
