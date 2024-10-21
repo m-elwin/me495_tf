@@ -9,14 +9,13 @@ def angle_axis_to_quaternion(theta, axis):
     """
     Convert from angle-axis of rotation to a quaternion.
 
-    Args
-    ----
-       theta:  rotation angle, in radians
-       axis: the rotational axis. This will be normalized
+    :param theta: Rotation angle, in radians.
+    :type theta: float
+    :param axis: The rotational axis. This will be normalized.
+    :type axis: List, Length is 3
 
-    Returns
-    -------
-       A Quaternion corresponding to the rotation
+    :return: A Quaternion corresponding to the rotation.
+    :rtype: :class:`geometry_msgs.msg.Quaternion`
 
     """
     magnitude = sqrt(axis[0]**2 + axis[1]**2 + axis[2]**2)
