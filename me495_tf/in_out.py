@@ -15,13 +15,21 @@ The left and right nodes will move in and out and rotate about the base z axis
 from math import pi
 
 from geometry_msgs.msg import TransformStamped
+from geometry_msgs.msg import Quaternion
 import rclpy
 from rclpy.node import Node
 from tf2_ros import TransformBroadcaster
 from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
 
-from .quaternion import angle_axis_to_quaternion
+from transforms3d.quaternions import axangle2quat
 
+def quatToMsg(quat):
+    """Convert a four-element sequence to a geometry_msgs/msg/Quaternion
+
+    Args:
+       quat: A four-element sequence [w, x, y, z] representing a quaternion
+    """
+    return Quaternion(w = quat[0], x = quat[1], y = quat[2], z = quat[3])
 
 class InOut(Node):
     """
@@ -66,13 +74,13 @@ class InOut(Node):
         # get a quaternion corresponding to a rotation by theta about an axis
         degrees = 36 * self.dx
         radians = degrees * pi / 180.0
-        base_left.transform.rotation = angle_axis_to_quaternion(radians, [0, 0, 1.0])
+        base_left.transform.rotation = quatToMsg(axangle2quat([0, 0, 1.0], radians))
 
         base_right = TransformStamped()
         base_right.header.frame_id = 'base'
         base_right.child_frame_id = 'right'
         base_right.transform.translation.x = float(self.dx)
-        base_right.transform.rotation = angle_axis_to_quaternion(radians, [0, 0, -1.0])
+        base_right.transform.rotation = quatToMsg(axangle2quat([0, 0, -1.0], radians))
 
         # don't forget to put a timestamp
         time = self.get_clock().now().to_msg()
