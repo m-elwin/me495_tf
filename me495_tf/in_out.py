@@ -14,8 +14,8 @@ The left and right nodes will move in and out and rotate about the base z axis
 """
 from math import pi
 
-from geometry_msgs.msg import TransformStamped
 from geometry_msgs.msg import Quaternion
+from geometry_msgs.msg import TransformStamped
 import rclpy
 from rclpy.node import Node
 from tf2_ros import TransformBroadcaster
@@ -23,13 +23,24 @@ from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
 
 from transforms3d.quaternions import axangle2quat
 
-def quatToMsg(quat):
-    """Convert a four-element sequence to a geometry_msgs/msg/Quaternion
 
-    Args:
-       quat: A four-element sequence [w, x, y, z] representing a quaternion
+def quatToMsg(quat):
     """
-    return Quaternion(w = quat[0], x = quat[1], y = quat[2], z = quat[3])
+    Convert a four-element sequence to a geometry_msgs/msg/Quaternion.
+
+    Parameters
+    ----------
+    quat : list
+         A four element sequence [w, x, y, z] representing a quaternion
+
+    Returns
+    -------
+    geometry_msgs.msg.Quaternion
+         The corresponding Quaternion message
+
+    """
+    return Quaternion(w=quat[0], x=quat[1], y=quat[2], z=quat[3])
+
 
 class InOut(Node):
     """

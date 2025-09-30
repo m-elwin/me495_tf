@@ -5,6 +5,7 @@ from launch_ros.actions import Node
 import launch_testing
 import pytest
 import rclpy
+from rclpy.time import Duration, Time
 
 from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener
@@ -28,6 +29,7 @@ def generate_test_description():
 
 
 class TestME495Tf(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
         rclpy.init()
@@ -46,8 +48,16 @@ class TestME495Tf(unittest.TestCase):
         buffer = Buffer()
         _ = TransformListener(buffer, self.node)
         proc_output.assertWaitFor('Static Transform: world->base', process=in_out, timeout=3.0)
-        rclpy.spin_once(self.node)
-        xform = buffer.lookup_transform('world', 'base', rclpy.time.Time())
+
+        start_time = self.node.get_clock().now()
+        while not buffer.can_transform('world', 'base', Time()):
+            rclpy.spin_once(self.node)
+            if self.node.get_clock().now() - start_time > Duration(seconds=1.0):
+                # Something went wrong, we'll let the buffer lookup fail
+                break
+
+        xform = buffer.lookup_transform('world', 'base', Time())
+
         # Even though these are floating point numbers, test for exact equality
         # Because this transform is hard-coded and not the result of any math
         # So the exact values should be copied
