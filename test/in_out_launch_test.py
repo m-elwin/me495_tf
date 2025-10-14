@@ -44,7 +44,7 @@ class TestME495Tf(unittest.TestCase):
     def tearDown(self):
         self.node.destroy_node()
 
-    def test_static_transform(self, launch_service, in_out, proc_output):
+    def test_static_transform(self, launch_service,  proc_output, in_out):
         buffer = Buffer()
         _ = TransformListener(buffer, self.node)
         proc_output.assertWaitFor('Static Transform: world->base', process=in_out, timeout=3.0)
