@@ -13,18 +13,12 @@ from tf2_ros.transform_listener import TransformListener
 
 @pytest.mark.rostest
 def generate_test_description():
-    in_out_action = Node(package='me495_tf',
-                         executable='in_out',
-                         )
     return (
         LaunchDescription([
-            in_out_action,
+            Node(package='me495_tf',
+                 executable='in_out'),
             launch_testing.actions.ReadyToTest()
-            ]),
-        # These are extra parameters that get passed to the test functions
-        {
-            'in_out': in_out_action
-        }
+            ])
     )
 
 
@@ -44,10 +38,10 @@ class TestME495Tf(unittest.TestCase):
     def tearDown(self):
         self.node.destroy_node()
 
-    def test_static_transform(self, launch_service,  proc_output, in_out):
+    def test_static_transform(self, launch_service,  proc_output):
         buffer = Buffer()
         _ = TransformListener(buffer, self.node)
-        proc_output.assertWaitFor('Static Transform: world->base', process=in_out, timeout=3.0)
+        proc_output.assertWaitFor('Static Transform: world->base', process='in_out', timeout=3.0)
 
         start_time = self.node.get_clock().now()
         while not buffer.can_transform('world', 'base', Time()):
