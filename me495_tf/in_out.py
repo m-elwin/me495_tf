@@ -17,6 +17,7 @@ from math import pi
 from geometry_msgs.msg import Quaternion
 from geometry_msgs.msg import TransformStamped
 import rclpy
+from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 from tf2_ros import TransformBroadcaster
 from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
@@ -108,7 +109,12 @@ class InOut(Node):
 
 
 def in_out_entry(args=None):
-    rclpy.init(args=args)
-    node = InOut()
-    rclpy.spin(node)
-    rclpy.shutdown()
+    try:
+        with rclpy.init(args=args):
+            node = InOut()
+            rclpy.spin(node)
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass
+
+if __name__ == '__main__':
+    in_out_entry(sys.argv)

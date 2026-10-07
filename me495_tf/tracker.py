@@ -1,5 +1,6 @@
 """A basic tf2 listener that computes the distance and angle between the left and right frames."""
 import rclpy
+from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 import tf2_ros
 from tf2_ros.buffer import Buffer
@@ -39,7 +40,12 @@ class Tracker(Node):
 
 
 def tracker_entry(args=None):
-    rclpy.init(args=args)
-    node = Tracker()
-    rclpy.spin(node)
-    rclpy.shutdown()
+    try:
+        with rclpy.init(args=args):
+            node = Tracker()
+            rclpy.spin(node)
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass
+
+if __name__ == '__main__':
+    in_out_entry(sys.argv)

@@ -18,7 +18,11 @@ setup(
     maintainer_email='elwin@northwestern.edu',
     description='Example code for tf2',
     license='MIT',
-    tests_require=['pytest'],
+    extras_require={
+        'test': [
+            'pytest',
+            ],
+        },
     entry_points={
         'console_scripts': [
             'in_out = me495_tf.in_out:in_out_entry',
