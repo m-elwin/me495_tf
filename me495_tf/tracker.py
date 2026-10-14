@@ -1,4 +1,6 @@
 """A basic tf2 listener that computes the distance and angle between the left and right frames."""
+import sys
+
 import rclpy
 from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
@@ -47,5 +49,6 @@ def tracker_entry(args=None):
     except (KeyboardInterrupt, ExternalShutdownException):
         pass
 
+
 if __name__ == '__main__':
-    in_out_entry(sys.argv)
+    tracker_entry(sys.argv)

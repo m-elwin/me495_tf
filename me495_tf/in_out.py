@@ -13,6 +13,7 @@ The left and right nodes will move in and out and rotate about the base z axis
 
 """
 from math import pi
+import sys
 
 from geometry_msgs.msg import Quaternion
 from geometry_msgs.msg import TransformStamped
@@ -115,6 +116,7 @@ def in_out_entry(args=None):
             rclpy.spin(node)
     except (KeyboardInterrupt, ExternalShutdownException):
         pass
+
 
 if __name__ == '__main__':
     in_out_entry(sys.argv)
