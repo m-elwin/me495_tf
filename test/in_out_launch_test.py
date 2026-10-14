@@ -3,6 +3,9 @@ import unittest
 from launch import LaunchDescription
 from launch_ros.actions import Node
 import launch_testing
+from launch_testing.actions import ReadyToTest
+import launch_testing.markers
+from launch_testing_ros.actions import EnableRmwIsolation
 import pytest
 import rclpy
 from rclpy.time import Duration, Time
@@ -11,13 +14,15 @@ from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener
 
 
-@pytest.mark.rostest
+@pytest.mark.launch_test
+@launch_testing.markers.keep_alive
 def generate_test_description():
     return (
         LaunchDescription([
+            EnableRmwIsolation(),
             Node(package='me495_tf',
                  executable='in_out'),
-            launch_testing.actions.ReadyToTest()
+            ReadyToTest()
             ])
     )
 
@@ -62,3 +67,12 @@ class TestME495Tf(unittest.TestCase):
         assert xform.transform.rotation.y == 0.0
         assert xform.transform.rotation.z == 0.0
         assert xform.transform.rotation.w == 1.0
+
+
+@launch_testing.post_shutdown_test()
+class TestNodeShutdown(unittest.TestCase):
+    """Ensure that everything exits cleanly."""
+
+    def test_exit_codes(self, proc_info):
+        """Assert that each process exited cleanly."""
+        launch_testing.asserts.assertExitCodes(proc_info)
